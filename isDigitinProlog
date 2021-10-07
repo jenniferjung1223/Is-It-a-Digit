@@ -1,0 +1,23 @@
+/* 	
+Name(s): Sadiat Ibrahim, Jennifer Jung
+Date: 2/11/21
+Course Number and Section: CSC 330 002
+Quarter: Winter
+Project #: 2
+*/
+
+/* We did all of the work together. */
+
+/* Look at the file that is given, then get a single character. Check if it is a digit, if it is, it converts it into an integer and then writes it into a file called "test2.txt'
+then keeps reading the characters. If it is not a digit,then replace the character with 0. as a placeholder, and writes into 'test2.txt', and keeps reading the characters. 
+Then add up all the values in the file 'test2.txt' and divide by 10 (because of the placeholder 0.) to get the original value. */
+fileSum(F,R):- see(F), tell('test2.txt'), get0(X), isDigit(X,_),told, see('test2.txt'),read(Z), add(Z,0,Y), R is Y/10, seen, seen.
+
+/* Check to see if the character is a digit. If it is not then replace the character with '0. ' */
+isDigit(-1,0) :- write('0.').
+isDigit(X,R) :- X >= 48, X =< 57, Y is X - 48, write(Y), get0(Z), isDigit(Z,R).
+isDigit(X,R) :- (X > 57; X < 48), write('0. '), get0(Z), isDigit(Z,R).
+
+/* Adds up all the numbers together. */
+add(end_of_file, N,N).
+add(X,N,R) :- X \= end_of_file, Y is N+X, read(Z), add(Z,Y,R).	
