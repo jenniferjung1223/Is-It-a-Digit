@@ -1,0 +1,41 @@
+(* 	
+Name(s): Sadiat Ibrahim, Jennifer Jung
+Date: 1/22/21
+Course Number and Section: CSC 330 002
+Quarter: Winter
+Project #: 1
+*)
+
+(* We did the isDigit() function, reverse() function, and also figured out how the main function takes in a text file as an input using TextIO structure together.
+		the pow() function was done by Jennifer and the sum() function was done by Sadiat. *)
+
+(* isDigit() function takes in an input as a character and checks if it is an integer. if it is, it returns true else false. *)
+fun isDigit(c) =
+	if ord(c) >= 48 andalso ord(c) <= 57 then true else false; 
+  
+(* fileSum is the main function that takes in a text file as a string, stores it in a variable. *)
+fun fileSum(infile: string) = 
+let
+    val a = TextIO.openIn(infile)
+    
+    (* recursive function that reads one character at a time. It then checks if it is a digit, then convert the character option into an integer and 
+    put them into an integer list. If the character option is not an integer, then turn those values into the number 23 as a placeholder and add them to the integer list. *)
+    fun f2(NONE) = nil
+		| f2(SOME x) = if isDigit(x) then [ord(x)-48]@f2(TextIO.input1(a)) else [23]@f2(TextIO.input1(a))
+    
+    (* reverses the integer list recursively. *)
+	fun reverse(nil : int list) = nil
+		| reverse(x::xs) = reverse(xs) @[x]
+    
+    (* pow(n) takes in an int and returns 10 to the power of n . if n is 0 it returns 1, else it returns the result of 10 to the power of n
+    		The pow function used in the sum function to take care of multi-digits. *)
+	fun pow(n) = if n = 0 then 1 else 10 * pow(n-1);
+  
+	(* check to see if the integers in the list is 0-9, if it is, then use the power function to find the literal value of a number given its 
+  	position, this is use to account for integers greater than 9, and then adds the integers that are not 23 all together. if the int is 23, n changes to 0. *)
+	fun sum(nil : int list, n) = 0
+		| sum(x::xs,n) = if x <= 9 then x * pow(n) + sum(xs,n+1) else sum(xs,0) 
+		
+in
+    sum(reverse(f2(TextIO.input1(a))),0)
+end;
